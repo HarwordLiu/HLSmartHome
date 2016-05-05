@@ -1,0 +1,28 @@
+//
+//  HLPrefixHeader.pch
+//  HLSmartHome
+//
+//  Created by HarwordLiu on 16/4/19.
+//  Copyright © 2016年 HarwordLiu. All rights reserved.
+//
+
+#ifndef HLPrefixHeader_pch
+#define HLPrefixHeader_pch
+
+#import <HomeKit/HomeKit.h>
+
+
+#define SCREENFRAMEWEIGHT [UIScreen mainScreen].bounds.size.width / 414
+#define SCREENFRAMEHEIGHT [UIScreen mainScreen].bounds.size.height / 736
+
+#define kSCREENFRAMEWEIGHT [UIScreen mainScreen].bounds.size.width / 736
+#define kSCREENFRAMEHEIGHT [UIScreen mainScreen].bounds.size.height / 414
+
+
+#define HOMECELLKEY @"homeCell"
+#define ADDCELLKEY @"addCell"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* HLPrefixHeader_pch */

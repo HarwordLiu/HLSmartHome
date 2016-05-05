@@ -1,0 +1,570 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		981037C31CD84CF000986A1E /* HLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 981037C21CD84CF000986A1E /* HLManager.m */; };
+		983188B11CC636BD00FBA7C6 /* HLCoustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 983188B01CC636BD00FBA7C6 /* HLCoustomViewController.m */; };
+		985873591CC9CC71006B53A6 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 985873541CC9CC71006B53A6 /* add.png */; };
+		9858735A1CC9CC71006B53A6 /* set.png in Resources */ = {isa = PBXBuildFile; fileRef = 985873551CC9CC71006B53A6 /* set.png */; };
+		9858735B1CC9CC71006B53A6 /* setSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 985873561CC9CC71006B53A6 /* setSelected.png */; };
+		9858735C1CC9CC71006B53A6 /* switchOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 985873571CC9CC71006B53A6 /* switchOff.png */; };
+		9858735D1CC9CC71006B53A6 /* switchOpen.png in Resources */ = {isa = PBXBuildFile; fileRef = 985873581CC9CC71006B53A6 /* switchOpen.png */; };
+		9896E6941CC5D1B4001F1879 /* back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9896E68C1CC5D1B4001F1879 /* back@3x.png */; };
+		9896E6B41CC5D995001F1879 /* HLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9896E6B31CC5D995001F1879 /* HLTabBarController.m */; };
+		9896E6B71CC5DB31001F1879 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 9896E6B51CC5DB31001F1879 /* home.png */; };
+		9896E6B81CC5DB31001F1879 /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = 9896E6B61CC5DB31001F1879 /* more.png */; };
+		9896E6BB1CC5DB46001F1879 /* HLHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9896E6BA1CC5DB46001F1879 /* HLHomeViewController.m */; };
+		9896E6BE1CC5DB51001F1879 /* HLMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9896E6BD1CC5DB51001F1879 /* HLMoreViewController.m */; };
+		9896E6C01CC5DC9C001F1879 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9896E6BF1CC5DC9C001F1879 /* HomeKit.framework */; };
+		98BDCE881CC6097400B1B2D9 /* HLAddNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BDCE871CC6097400B1B2D9 /* HLAddNewViewController.m */; };
+		98D8C9B41CD98DE5001E0235 /* HLCoustomSeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9B31CD98DE5001E0235 /* HLCoustomSeviceView.m */; };
+		98D8C9B71CD9CF41001E0235 /* HLSeviceContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9B61CD9CF41001E0235 /* HLSeviceContentViewController.m */; };
+		98D8C9D61CDAEABB001E0235 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9CB1CDAEABB001E0235 /* FMDatabase.m */; };
+		98D8C9D71CDAEABB001E0235 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9CD1CDAEABB001E0235 /* FMDatabaseAdditions.m */; };
+		98D8C9D81CDAEABB001E0235 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9CF1CDAEABB001E0235 /* FMDatabasePool.m */; };
+		98D8C9D91CDAEABB001E0235 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9D11CDAEABB001E0235 /* FMDatabaseQueue.m */; };
+		98D8C9DA1CDAEABB001E0235 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D8C9D41CDAEABB001E0235 /* FMResultSet.m */; };
+		98D8C9DD1CDAEAEC001E0235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D8C9DC1CDAEAEC001E0235 /* libsqlite3.0.tbd */; };
+		98E177571CC325C100302183 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E177561CC325C100302183 /* main.m */; };
+		98E1775A1CC325C100302183 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E177591CC325C100302183 /* AppDelegate.m */; };
+		98E177601CC325C100302183 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E1775E1CC325C100302183 /* Main.storyboard */; };
+		98E177621CC325C100302183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E177611CC325C100302183 /* Assets.xcassets */; };
+		98E177651CC325C100302183 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E177631CC325C100302183 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		981037C11CD84CF000986A1E /* HLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLManager.h; sourceTree = "<group>"; };
+		981037C21CD84CF000986A1E /* HLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLManager.m; sourceTree = "<group>"; };
+		983188AF1CC636BD00FBA7C6 /* HLCoustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCoustomViewController.h; sourceTree = "<group>"; };
+		983188B01CC636BD00FBA7C6 /* HLCoustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCoustomViewController.m; sourceTree = "<group>"; };
+		985873541CC9CC71006B53A6 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		985873551CC9CC71006B53A6 /* set.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = set.png; sourceTree = "<group>"; };
+		985873561CC9CC71006B53A6 /* setSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setSelected.png; sourceTree = "<group>"; };
+		985873571CC9CC71006B53A6 /* switchOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchOff.png; sourceTree = "<group>"; };
+		985873581CC9CC71006B53A6 /* switchOpen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchOpen.png; sourceTree = "<group>"; };
+		9896E68C1CC5D1B4001F1879 /* back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@3x.png"; sourceTree = "<group>"; };
+		9896E6B21CC5D995001F1879 /* HLTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLTabBarController.h; sourceTree = "<group>"; };
+		9896E6B31CC5D995001F1879 /* HLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLTabBarController.m; sourceTree = "<group>"; };
+		9896E6B51CC5DB31001F1879 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		9896E6B61CC5DB31001F1879 /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
+		9896E6B91CC5DB46001F1879 /* HLHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLHomeViewController.h; sourceTree = "<group>"; };
+		9896E6BA1CC5DB46001F1879 /* HLHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLHomeViewController.m; sourceTree = "<group>"; };
+		9896E6BC1CC5DB51001F1879 /* HLMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLMoreViewController.h; sourceTree = "<group>"; };
+		9896E6BD1CC5DB51001F1879 /* HLMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLMoreViewController.m; sourceTree = "<group>"; };
+		9896E6BF1CC5DC9C001F1879 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
+		9896E6C11CC5DC9C001F1879 /* HLSmartHome.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HLSmartHome.entitlements; sourceTree = "<group>"; };
+		9896E6C31CC5DE41001F1879 /* HLPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLPrefixHeader.pch; sourceTree = "<group>"; };
+		98BDCE861CC6097400B1B2D9 /* HLAddNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLAddNewViewController.h; sourceTree = "<group>"; };
+		98BDCE871CC6097400B1B2D9 /* HLAddNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLAddNewViewController.m; sourceTree = "<group>"; };
+		98D8C9B21CD98DE5001E0235 /* HLCoustomSeviceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCoustomSeviceView.h; sourceTree = "<group>"; };
+		98D8C9B31CD98DE5001E0235 /* HLCoustomSeviceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCoustomSeviceView.m; sourceTree = "<group>"; };
+		98D8C9B51CD9CF41001E0235 /* HLSeviceContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSeviceContentViewController.h; sourceTree = "<group>"; };
+		98D8C9B61CD9CF41001E0235 /* HLSeviceContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSeviceContentViewController.m; sourceTree = "<group>"; };
+		98D8C9CA1CDAEABB001E0235 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		98D8C9CB1CDAEABB001E0235 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		98D8C9CC1CDAEABB001E0235 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		98D8C9CD1CDAEABB001E0235 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		98D8C9CE1CDAEABB001E0235 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		98D8C9CF1CDAEABB001E0235 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		98D8C9D01CDAEABB001E0235 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		98D8C9D11CDAEABB001E0235 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		98D8C9D21CDAEABB001E0235 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		98D8C9D31CDAEABB001E0235 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		98D8C9D41CDAEABB001E0235 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		98D8C9DC1CDAEAEC001E0235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		98E177521CC325C100302183 /* HLSmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HLSmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98E177561CC325C100302183 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		98E177581CC325C100302183 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		98E177591CC325C100302183 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		98E1775F1CC325C100302183 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		98E177611CC325C100302183 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		98E177641CC325C100302183 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		98E177661CC325C100302183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		98E1774F1CC325C000302183 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98D8C9DD1CDAEAEC001E0235 /* libsqlite3.0.tbd in Frameworks */,
+				9896E6C01CC5DC9C001F1879 /* HomeKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9896E6781CC5D1B4001F1879 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		9896E68B1CC5D1B4001F1879 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				985873541CC9CC71006B53A6 /* add.png */,
+				985873551CC9CC71006B53A6 /* set.png */,
+				985873561CC9CC71006B53A6 /* setSelected.png */,
+				985873571CC9CC71006B53A6 /* switchOff.png */,
+				985873581CC9CC71006B53A6 /* switchOpen.png */,
+				9896E6B51CC5DB31001F1879 /* home.png */,
+				9896E6B61CC5DB31001F1879 /* more.png */,
+				9896E68C1CC5D1B4001F1879 /* back@3x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		9896E68D1CC5D1B4001F1879 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				981037C11CD84CF000986A1E /* HLManager.h */,
+				981037C21CD84CF000986A1E /* HLManager.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		9896E69B1CC5D36C001F1879 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Singleton;
+			sourceTree = "<group>";
+		};
+		9896E6A91CC5D96E001F1879 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6AA1CC5D96E001F1879 /* Home */,
+				9896E6AE1CC5D96E001F1879 /* More */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		9896E6AA1CC5D96E001F1879 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6AB1CC5D96E001F1879 /* Model */,
+				9896E6AC1CC5D96E001F1879 /* View */,
+				9896E6AD1CC5D96E001F1879 /* Viewcontroller */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9896E6AB1CC5D96E001F1879 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9896E6AC1CC5D96E001F1879 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				98D8C9B21CD98DE5001E0235 /* HLCoustomSeviceView.h */,
+				98D8C9B31CD98DE5001E0235 /* HLCoustomSeviceView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9896E6AD1CC5D96E001F1879 /* Viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6B91CC5DB46001F1879 /* HLHomeViewController.h */,
+				9896E6BA1CC5DB46001F1879 /* HLHomeViewController.m */,
+				98BDCE861CC6097400B1B2D9 /* HLAddNewViewController.h */,
+				98BDCE871CC6097400B1B2D9 /* HLAddNewViewController.m */,
+				983188AF1CC636BD00FBA7C6 /* HLCoustomViewController.h */,
+				983188B01CC636BD00FBA7C6 /* HLCoustomViewController.m */,
+				98D8C9B51CD9CF41001E0235 /* HLSeviceContentViewController.h */,
+				98D8C9B61CD9CF41001E0235 /* HLSeviceContentViewController.m */,
+			);
+			path = Viewcontroller;
+			sourceTree = "<group>";
+		};
+		9896E6AE1CC5D96E001F1879 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6AF1CC5D96E001F1879 /* Model */,
+				9896E6B01CC5D96E001F1879 /* View */,
+				9896E6B11CC5D96E001F1879 /* Viewcontroller */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
+		9896E6AF1CC5D96E001F1879 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9896E6B01CC5D96E001F1879 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9896E6B11CC5D96E001F1879 /* Viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6BC1CC5DB51001F1879 /* HLMoreViewController.h */,
+				9896E6BD1CC5DB51001F1879 /* HLMoreViewController.m */,
+			);
+			path = Viewcontroller;
+			sourceTree = "<group>";
+		};
+		9896E6C21CC5DE2A001F1879 /* PCH */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6C31CC5DE41001F1879 /* HLPrefixHeader.pch */,
+			);
+			path = PCH;
+			sourceTree = "<group>";
+		};
+		98D8C9B81CDAE207001E0235 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				98D8C9B91CDAE207001E0235 /* FMDB */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		98D8C9B91CDAE207001E0235 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				98D8C9CA1CDAEABB001E0235 /* FMDatabase.h */,
+				98D8C9CB1CDAEABB001E0235 /* FMDatabase.m */,
+				98D8C9CC1CDAEABB001E0235 /* FMDatabaseAdditions.h */,
+				98D8C9CD1CDAEABB001E0235 /* FMDatabaseAdditions.m */,
+				98D8C9CE1CDAEABB001E0235 /* FMDatabasePool.h */,
+				98D8C9CF1CDAEABB001E0235 /* FMDatabasePool.m */,
+				98D8C9D01CDAEABB001E0235 /* FMDatabaseQueue.h */,
+				98D8C9D11CDAEABB001E0235 /* FMDatabaseQueue.m */,
+				98D8C9D21CDAEABB001E0235 /* FMDB.h */,
+				98D8C9D31CDAEABB001E0235 /* FMResultSet.h */,
+				98D8C9D41CDAEABB001E0235 /* FMResultSet.m */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		98E177491CC325C000302183 = {
+			isa = PBXGroup;
+			children = (
+				98D8C9DC1CDAEAEC001E0235 /* libsqlite3.0.tbd */,
+				9896E6BF1CC5DC9C001F1879 /* HomeKit.framework */,
+				98E177541CC325C100302183 /* HLSmartHome */,
+				98E177531CC325C100302183 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		98E177531CC325C100302183 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98E177521CC325C100302183 /* HLSmartHome.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98E177541CC325C100302183 /* HLSmartHome */ = {
+			isa = PBXGroup;
+			children = (
+				9896E6C11CC5DC9C001F1879 /* HLSmartHome.entitlements */,
+				98E177581CC325C100302183 /* AppDelegate.h */,
+				98E177591CC325C100302183 /* AppDelegate.m */,
+				9896E6B21CC5D995001F1879 /* HLTabBarController.h */,
+				9896E6B31CC5D995001F1879 /* HLTabBarController.m */,
+				9896E6C21CC5DE2A001F1879 /* PCH */,
+				9896E69B1CC5D36C001F1879 /* Singleton */,
+				9896E6781CC5D1B4001F1879 /* Category */,
+				98D8C9B81CDAE207001E0235 /* Pods */,
+				9896E6A91CC5D96E001F1879 /* Classes */,
+				9896E68B1CC5D1B4001F1879 /* Images */,
+				9896E68D1CC5D1B4001F1879 /* Tools */,
+				98E177551CC325C100302183 /* Supporting Files */,
+			);
+			path = HLSmartHome;
+			sourceTree = "<group>";
+		};
+		98E177551CC325C100302183 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				98E1775E1CC325C100302183 /* Main.storyboard */,
+				98E177611CC325C100302183 /* Assets.xcassets */,
+				98E177631CC325C100302183 /* LaunchScreen.storyboard */,
+				98E177661CC325C100302183 /* Info.plist */,
+				98E177561CC325C100302183 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		98E177511CC325C000302183 /* HLSmartHome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98E177691CC325C100302183 /* Build configuration list for PBXNativeTarget "HLSmartHome" */;
+			buildPhases = (
+				98E1774E1CC325C000302183 /* Sources */,
+				98E1774F1CC325C000302183 /* Frameworks */,
+				98E177501CC325C000302183 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HLSmartHome;
+			productName = HLSmartHome;
+			productReference = 98E177521CC325C100302183 /* HLSmartHome.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98E1774A1CC325C000302183 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = HarwordLiu;
+				TargetAttributes = {
+					98E177511CC325C000302183 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = X2LG8C4H67;
+						SystemCapabilities = {
+							com.apple.HomeKit = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 98E1774D1CC325C000302183 /* Build configuration list for PBXProject "HLSmartHome" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 98E177491CC325C000302183;
+			productRefGroup = 98E177531CC325C100302183 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				98E177511CC325C000302183 /* HLSmartHome */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		98E177501CC325C000302183 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				985873591CC9CC71006B53A6 /* add.png in Resources */,
+				9858735C1CC9CC71006B53A6 /* switchOff.png in Resources */,
+				9858735B1CC9CC71006B53A6 /* setSelected.png in Resources */,
+				98E177651CC325C100302183 /* LaunchScreen.storyboard in Resources */,
+				9896E6B71CC5DB31001F1879 /* home.png in Resources */,
+				9858735D1CC9CC71006B53A6 /* switchOpen.png in Resources */,
+				9896E6B81CC5DB31001F1879 /* more.png in Resources */,
+				9896E6941CC5D1B4001F1879 /* back@3x.png in Resources */,
+				98E177621CC325C100302183 /* Assets.xcassets in Resources */,
+				9858735A1CC9CC71006B53A6 /* set.png in Resources */,
+				98E177601CC325C100302183 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		98E1774E1CC325C000302183 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9896E6B41CC5D995001F1879 /* HLTabBarController.m in Sources */,
+				98D8C9B71CD9CF41001E0235 /* HLSeviceContentViewController.m in Sources */,
+				98D8C9D81CDAEABB001E0235 /* FMDatabasePool.m in Sources */,
+				98D8C9D91CDAEABB001E0235 /* FMDatabaseQueue.m in Sources */,
+				983188B11CC636BD00FBA7C6 /* HLCoustomViewController.m in Sources */,
+				98D8C9B41CD98DE5001E0235 /* HLCoustomSeviceView.m in Sources */,
+				9896E6BB1CC5DB46001F1879 /* HLHomeViewController.m in Sources */,
+				9896E6BE1CC5DB51001F1879 /* HLMoreViewController.m in Sources */,
+				98E1775A1CC325C100302183 /* AppDelegate.m in Sources */,
+				98D8C9DA1CDAEABB001E0235 /* FMResultSet.m in Sources */,
+				981037C31CD84CF000986A1E /* HLManager.m in Sources */,
+				98E177571CC325C100302183 /* main.m in Sources */,
+				98D8C9D61CDAEABB001E0235 /* FMDatabase.m in Sources */,
+				98BDCE881CC6097400B1B2D9 /* HLAddNewViewController.m in Sources */,
+				98D8C9D71CDAEABB001E0235 /* FMDatabaseAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		98E1775E1CC325C100302183 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98E1775F1CC325C100302183 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		98E177631CC325C100302183 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98E177641CC325C100302183 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		98E177671CC325C100302183 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		98E177681CC325C100302183 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		98E1776A1CC325C100302183 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HLSmartHome/HLSmartHome.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Lv Fang (FY52J57RAD)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lv Fang (FY52J57RAD)";
+				GCC_PREFIX_HEADER = HLSmartHome/PCH/HLPrefixHeader.pch;
+				INFOPLIST_FILE = HLSmartHome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.HarwordLiu.HLSmartHome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "de99a59d-1037-4096-a8fa-1cbe1bb345d0";
+			};
+			name = Debug;
+		};
+		98E1776B1CC325C100302183 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HLSmartHome/HLSmartHome.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Lv Fang (FY52J57RAD)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lv Fang (FY52J57RAD)";
+				GCC_PREFIX_HEADER = HLSmartHome/PCH/HLPrefixHeader.pch;
+				INFOPLIST_FILE = HLSmartHome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.HarwordLiu.HLSmartHome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "de99a59d-1037-4096-a8fa-1cbe1bb345d0";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		98E1774D1CC325C000302183 /* Build configuration list for PBXProject "HLSmartHome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98E177671CC325C100302183 /* Debug */,
+				98E177681CC325C100302183 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98E177691CC325C100302183 /* Build configuration list for PBXNativeTarget "HLSmartHome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98E1776A1CC325C100302183 /* Debug */,
+				98E1776B1CC325C100302183 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98E1774A1CC325C000302183 /* Project object */;
+}
