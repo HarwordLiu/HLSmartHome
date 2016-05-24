@@ -16,12 +16,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor blackColor];
+    
     UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnBack.frame = CGRectMake(50, 50, 100, 100);
+    btnBack.frame = CGRectMake(20, 20, 50, 50);
     btnBack.backgroundColor = [UIColor greenColor];
+    btnBack.layer.cornerRadius = 50;
     [btnBack addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnBack];
+    
+    for (HMCharacteristic *cha in _service.characteristics) {
+        NSLog(@"type ==== %@", cha.characteristicType);
+    }
+    
+    
+    
+    
+    
+    
 }
 
 - (void)clickBtn:(UIButton *)sender {

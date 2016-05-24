@@ -9,6 +9,8 @@
 #import "HLHomeViewController.h"
 #import "HLAddNewViewController.h"
 #import "HLCoustomViewController.h"
+#import "RLNetWorkTool.h"
+#import "NSString+MD5.h"
 
 @interface HLHomeViewController ()<UITableViewDelegate, UITableViewDataSource, HMHomeManagerDelegate>
 
@@ -29,7 +31,7 @@
     
     [self initHomeManager];
     [self creatSubView];
-
+    [self drawTestBtn];
     
 }
 
@@ -173,6 +175,60 @@
             NSLog(@"%s, error = %@", __FUNCTION__, error);
         }
     }];
+}
+
+- (void)drawTestBtn {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(200, 200, 200, 200);
+    btn.backgroundColor = [UIColor greenColor];
+    [btn addTarget:self action:@selector(clickTestBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:btn];
+}
+
+- (void)clickTestBtn:(UIButton *)sender {
+    NSMutableDictionary *optionDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2", @"appType", @"wxjsa", @"loginName", @"wxjsa", @"password", nil];
+    
+    NSMutableDictionary *dic = [HLHomeViewController requestOption];
+    [dic addEntriesFromDictionary:optionDic];
+    [RLNetWorkTool postWithURL:@"http://101.200.183.165:80/rw/app/login.do" Body:dic BodyType:BodyTypeNormol HttpHeader:nil ResponseType:ResponseTypeJSON Progress:^(NSProgress *progress) {
+        
+    } Success:^(id result) {
+        NSLog(@"result === %@", result);
+    } Failure:^(NSError *error) {
+        NSLog(@"error === %@", error);
+    }];
+}
+
++ (NSMutableDictionary *)requestOption
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    
+    // 时间
+    long long timeInterval = [[NSDate date] timeIntervalSince1970];
+    NSString *rtnStr = [NSString stringWithFormat:@"%lld", timeInterval];
+    
+    // 随机数字
+    NSString *num = [NSString stringWithFormat:@"%i", arc4random() % 1000];
+    
+    // 机密signature
+    NSString *signatureResult = [[NSString stringWithFormat:@"%@%@%@",@"realwish-gasering", rtnStr, num] SHA1];
+    NSString *sigStr = signatureResult.uppercaseString;
+    
+    //    NSLog(@"%@", )
+    
+    
+    
+    [dic setObject:[NSString stringWithFormat:@"%@", rtnStr] forKey:@"timestamp"];
+    [dic setObject:[NSString stringWithFormat:@"%@", num] forKey:@"nonce"];
+    [dic setObject:[NSString stringWithFormat:@"%@", sigStr] forKey:@"signature"];
+    
+    //    [dic setObject:@"20160105" forKey:@"timestamp"];
+    //    [dic setObject:@"2016" forKey:@"nonce"];
+    //    [dic setObject:@"565EB2156DEB0BA1844DA3451EA4BE6379FA4B21" forKey:@"signature"];
+    //
+    
+    return dic;
 }
 
 

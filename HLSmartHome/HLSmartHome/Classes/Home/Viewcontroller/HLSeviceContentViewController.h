@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <HomeKit/HomeKit.h>
 
 @interface HLSeviceContentViewController : UIViewController
+
+@property (nonatomic, strong) HMService *service;
 
 @end

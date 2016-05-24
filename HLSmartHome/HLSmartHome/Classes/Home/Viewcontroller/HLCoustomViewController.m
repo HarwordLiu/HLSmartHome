@@ -11,7 +11,7 @@
 #import "HLSeviceContentViewController.h"
 #import "FMDB.h"
 
-@interface HLCoustomViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, HMAccessoryDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface HLCoustomViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, HMAccessoryDelegate, UITableViewDelegate, UITableViewDataSource, HLCoustomSeviceViewDelegate>
 
 @property (nonatomic, strong) UIImageView *imageView;
 
@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UIButton *menuBtn;
 @property (nonatomic, strong) UIButton *lockBtn;
 @property (nonatomic, strong) UIButton *saveBtn;
+@property (nonatomic, strong) UIButton *deleteBtn;
 
 @property (nonatomic, strong) NSMutableArray<HLCoustomSeviceView *> *stateViewArray;
 @property (nonatomic, strong) FMDatabase *dataBase;
@@ -75,12 +76,34 @@
     
 }
 
+#pragma mark - 智能家居空间数据回调更新UI
+
+
+- (void)accessoryDidUpdateServices:(HMAccessory *)accessory {
+    
+}
+
+- (void)accessory:(HMAccessory *)accessory service:(HMService *)service didUpdateValueForCharacteristic:(HMCharacteristic *)characteristic {
+        NSInteger index = 0;
+        for (HMService *tempService in accessory.services) {
+            if (tempService != service) {
+                break;
+            }
+            index++;
+        }
+        HLCoustomSeviceView *view = self.stateViewArray[index];
+        view.stateBtn.selected =! view.stateBtn.isSelected;
+}
+
+
+
 - (void)creatSubView {
     
     _stateViewArray = [NSMutableArray array];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 736 * SCREENFRAMEHEIGHT, 414 * SCREENFRAMEWEIGHT)];
     _imageView.backgroundColor = [UIColor whiteColor];
+    _imageView.image = [self getPlaceHolderPNG];
     [self.view addSubview:_imageView];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -134,6 +157,8 @@
     [_imageBtn addTarget:self action:@selector(photoFromCamera) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_imageBtn];
     
+    
+    
     _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _saveBtn.frame = CGRectMake(10, (414 - 90), 50, 50);
     _saveBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
@@ -142,9 +167,34 @@
     [_saveBtn addTarget:self action:@selector(saveSqliteCoustomSevice) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_saveBtn];
     
+    _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _deleteBtn.frame = CGRectMake(10, (414 - 160), 100, 50);
+    _deleteBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+    _deleteBtn.alpha = 1;
+    [_deleteBtn setTitle:@"删除模式" forState:UIControlStateNormal];
+    [_deleteBtn addTarget:self action:@selector(clickDeleteState:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_deleteBtn];
+    
     
     
 }
+
+- (void)clickDeleteState:(UIButton *)sender {
+    if (sender.selected) {
+        for (HLCoustomSeviceView *view in self.stateViewArray) {
+            view.deleBtn.alpha = 0;
+        }
+    } else {
+        for (HLCoustomSeviceView *view in self.stateViewArray) {
+            view.deleBtn.alpha = 1;
+            NSLog(@"$$$$$$$$$$");
+        }
+        
+    }
+    sender.selected =! sender.isSelected;
+}
+
+
 
 
 #pragma mark - tableView delegate
@@ -160,6 +210,16 @@
     }
     HMService *service = _data[indexPath.row];
     cell.textLabel.text = service.localizedDescription;
+    NSLog(@"%@", service.characteristics);
+    for (HMCharacteristic *characteristic in service.characteristics) {
+        NSLog(@"%@", characteristic.localizedDescription);
+        [characteristic enableNotification:YES completionHandler:^(NSError * _Nullable error) {
+            if (error != nil) {
+                NSLog(@"Something went wrong when enbling nofification a characteristic with error = %@", error);
+            }
+        }];
+    }
+    
     
     return cell;
 }
@@ -186,12 +246,14 @@
         if (_stateViewArray.count != 0) {
             for (HLCoustomSeviceView *view in _stateViewArray) {
                 view.lockState = NO;
+                view.stateBtn.alpha = 0;
             }
         }
     } else {
         if (_stateViewArray.count != 0) {
             for (HLCoustomSeviceView *view in _stateViewArray) {
                 view.lockState = YES;
+                view.stateBtn.alpha = 1;
             }
         }
     }
@@ -204,12 +266,42 @@
     view.center = self.view.center;
     view.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
     view.tag = 1000 + index;
+    view.delegate = self;
     [self.view addSubview:view];
     [self.stateViewArray addObject:view];
     
     
     
 }
+
+#pragma mark - HLCoustomSeviceView delegate
+
+- (void)stateBtn:(UIButton *)sender SeviceIndex:(NSInteger)index {
+    HMService *service = _accessory.services[index];
+    HMCharacteristic *tempC = service.characteristics[1];
+    BOOL changeState = YES;
+    changeState = [tempC.value boolValue] ? NO : YES;
+    
+    NSLog(@"%d", sender.selected ? NO : YES);
+
+    sender.enabled = NO;
+    NSLog(@"changeState = %d charaValue = %@", changeState, tempC.value);
+    [tempC writeValue:[NSNumber numberWithBool:changeState] completionHandler:^(NSError * _Nullable error) {
+        sender.enabled = YES;
+        if (error != nil) {
+            NSLog(@"change failed %@", error);
+        } else {
+            NSLog(@"Success");
+        }
+    }];
+    sender.selected =! sender.isSelected;
+}
+
+- (void)deleView:(HLCoustomSeviceView *)view {
+    [self.stateViewArray removeObject:view];
+    
+}
+
 
 
 // 点击设置按钮
@@ -251,6 +343,13 @@
     }
     else {
         HLSeviceContentViewController *peekViewController = [[HLSeviceContentViewController alloc] init];
+        ;
+//        CGPoint tempPoint = [self.view convertPoint:point toView:self.view];
+        
+        HLCoustomSeviceView *view = (HLCoustomSeviceView *)context.sourceView;
+        
+        peekViewController.service = view.service;
+
 
         
         return peekViewController;
@@ -292,6 +391,7 @@
         self.imageView.image = image;
         // 将拍摄的照片存入图库
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+        [self savePlaceHolderPNG:image];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         
@@ -304,6 +404,33 @@
     }];
 }
 
+// 存储和获取背景图
+- (UIImage *)getPlaceHolderPNG{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", _accessory.name]];
+    UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+    return image; 
+}
+
+- (void)savePlaceHolderPNG:(UIImage *)image {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", _accessory.name]];   // 保存文件的名称
+    
+    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:filePath];
+    if (blHave) {
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+    }
+    
+    BOOL result = [UIImagePNGRepresentation(image)writeToFile:filePath atomically:YES];
+    if (result) {
+        NSLog(@"save success");
+    } else {
+        NSLog(@"save failed");
+    }
+}
+
+
+
 #pragma mark - 建表存储布局信息
 
 
@@ -315,9 +442,9 @@
     self.dataBase = dataBase;
     BOOL open = [dataBase open];
     if (open) {
-        [dataBase executeUpdate:@"CREATE TABLE IF NOT EXISTS t_CoustomSevice (IndexRow integer, Frame text)"];
+        [dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS t_%@ (IndexRow integer, Frame text)", _accessory.name]];
         
-        FMResultSet *result = [dataBase executeQuery:@"SELECT * FROM t_CoustomSevice"];
+        FMResultSet *result = [dataBase executeQuery:[NSString stringWithFormat:@"SELECT * FROM t_%@", _accessory.name]];
         while (result.next) {
             
             // 获取本地存储数据进行布局
@@ -328,6 +455,7 @@
             HLCoustomSeviceView *view = [HLCoustomSeviceView getCoustomSeviceViewWithFrame:frame  Index:index sevice:_accessory.services[index]];
             view.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
             view.tag = 1000 + index;
+            view.delegate = self;
             [self.view addSubview:view];
             [self.stateViewArray addObject:view];
             
@@ -341,12 +469,11 @@
 - (void)saveSqliteCoustomSevice {
     BOOL result = [self.dataBase open];
     if (result) {
-        [self.dataBase executeUpdate:@"DELETE FROM t_CoustomSevice"];
+        NSLog(@"%d", [self.dataBase executeUpdate:[NSString stringWithFormat:@"DELETE FROM t_%@", _accessory.name]]);
         if (self.stateViewArray.count != 0) {
             
             for (HLCoustomSeviceView *view in self.stateViewArray) {
-//                CGRect myRect = CGRectMake(view.frame.origin.x * kSCREENFRAMEWEIGHT, view.frame.origin.y * kSCREENFRAMEHEIGHT, view.frame.size.width, view.frame.size.height);
-                [self.dataBase executeUpdate:@"INSERT INTO t_CoustomSevice (IndexRow, Frame) VALUES (?,?)", [NSNumber numberWithInteger:view.index], NSStringFromCGRect(view.frame)];
+                [self.dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO t_%@ (IndexRow, Frame) VALUES (?,?)", _accessory.name], [NSNumber numberWithInteger:view.index], NSStringFromCGRect(view.frame)];
             }            
         }
         [self.dataBase close];
@@ -354,6 +481,8 @@
     NSLog(@"%ld", _stateViewArray.count);
     
 }
+
+
 
 
 
