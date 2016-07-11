@@ -10,8 +10,12 @@
 #import "HLCoustomSeviceView.h"
 #import "HLSeviceContentViewController.h"
 #import "FMDB.h"
+#import "VVSpringCollectionViewFlowLayout.h"
+#import <AudioToolbox/AudioToolbox.h>
 
-@interface HLCoustomViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, HMAccessoryDelegate, UITableViewDelegate, UITableViewDataSource, HLCoustomSeviceViewDelegate>
+
+
+@interface HLCoustomViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, HMAccessoryDelegate, HLCoustomSeviceViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UIImageView *imageView;
 
@@ -59,21 +63,44 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self lockCoustomView];
+}
+
+- (void)lockCoustomView {
+    if (self.lockBtn.isSelected == NO) {
+        
+        [self clickLockBtn:self.lockBtn];
+        
+    }
+    
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [self saveSqliteCoustomSevice];
 }
 
 - (void)initHomeKit {
 //    _data = [NSMutableArray array];
-    
     if (_accessory.services.count != 0) {
         _data = [NSMutableArray arrayWithArray:_accessory.services];
     }
-    
-
     _accessory.delegate = self;
+    [self registerHomeKitNotification];
+}
 
+- (void)registerHomeKitNotification {
     
+    for (HMService *service in self.accessory.services) {
+        
+        for (HMCharacteristic *characteristic in service.characteristics) {
+            [characteristic enableNotification:YES completionHandler:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    NSLog(@"Something went wrong when enbling nofification a characteristic with error = %@", error);
+                }
+            }];
+        }
+    }
 }
 
 #pragma mark - 智能家居空间数据回调更新UI
@@ -84,17 +111,57 @@
 }
 
 - (void)accessory:(HMAccessory *)accessory service:(HMService *)service didUpdateValueForCharacteristic:(HMCharacteristic *)characteristic {
-        NSInteger index = 0;
-        for (HMService *tempService in accessory.services) {
-            if (tempService != service) {
-                break;
-            }
-            index++;
+    
+    HLCoustomSeviceView *view;
+    for (HLCoustomSeviceView *temp in self.stateViewArray) {
+        if (temp.service.uniqueIdentifier == service.uniqueIdentifier) {
+            view = temp;
+            break;
         }
-        HLCoustomSeviceView *view = self.stateViewArray[index];
-        view.stateBtn.selected =! view.stateBtn.isSelected;
+    }
+    view.stateBtn.selected = [service.characteristics[1].value boolValue];
+    // 火灾闹钟
+//    if ([service.localizedDescription isEqualToString:@"烟雾传感器"]) {
+//        NSLog(@"%@", characteristic.value);
+//        if ([characteristic.value integerValue]> 50) {
+//            static dispatch_once_t onceToken;
+//            dispatch_once(&onceToken, ^{
+//                AudioServicesPlaySystemSound(1001);
+//            });
+//        }
+//        
+//    }
+
 }
 
+//// 闹钟
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(alarmClock) userInfo:nil repeats:YES];
+//    
+//    
+//}
+//- (void)alarmClock {
+//    AudioServicesPlaySystemSound(1005);
+//
+//}
+
+//调用震动
+-(void)systemShake
+{
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+
+//调用系统铃声
+-(void)createSystemSoundWithName:(NSString *)soundName soundType:(NSString *)soundType
+{
+    NSString *path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/%@.%@",soundName,soundType];
+    if (path) {
+        
+//        AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundID);
+        AudioServicesPlaySystemSound(1001);
+        
+    }
+}
 
 
 - (void)creatSubView {
@@ -102,43 +169,64 @@
     _stateViewArray = [NSMutableArray array];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 736 * SCREENFRAMEHEIGHT, 414 * SCREENFRAMEWEIGHT)];
-    _imageView.backgroundColor = [UIColor whiteColor];
+    _imageView.backgroundColor = [UIColor randomColor];
     _imageView.image = [self getPlaceHolderPNG];
     [self.view addSubview:_imageView];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    _menuView = [[UIView alloc] initWithFrame:CGRectMake(736 * SCREENFRAMEHEIGHT, 0, 170 * SCREENFRAMEHEIGHT, 414 * SCREENFRAMEWEIGHT)];
-    _menuView.backgroundColor = [UIColor cyanColor];
+    _menuView = [[UIView alloc] initWithFrame:CGRectMake(736 * SCREENFRAMEHEIGHT, 0, 200 * SCREENFRAMEHEIGHT, 414 * SCREENFRAMEWEIGHT)];
+    _menuView.backgroundColor = [UIColor randomColor];
     [self.view addSubview:_menuView];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, 170, [UIScreen mainScreen].bounds.size.width - 100)];
-    tableView.backgroundColor = [UIColor colorWithWhite:0.33 alpha:1];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [_menuView addSubview:tableView];
+//    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, 170, [UIScreen mainScreen].bounds.size.width - 100)];
+//    tableView.backgroundColor = [UIColor colorWithWhite:0.33 alpha:1];
+//    tableView.delegate = self;
+//    tableView.dataSource = self;
+//    [_menuView addSubview:tableView];
+    
+    
+    VVSpringCollectionViewFlowLayout *layout = [[VVSpringCollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(180, 44);
+    
+    
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 10, 180, [UIScreen mainScreen].bounds.size.width - 100) collectionViewLayout:layout];
+    collectionView.backgroundColor = [UIColor colorWithWhite:0.22 alpha:0.33];
+    collectionView.delegate = self;
+    collectionView.dataSource = self;
+    [_menuView addSubview:collectionView];
+    
+    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"chara"];
     
     UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    menuBtn.frame = CGRectMake(686 * SCREENFRAMEHEIGHT, 20 * SCREENFRAMEWEIGHT, SCREENFRAMEHEIGHT * 40, SCREENFRAMEWEIGHT * 40);
+    menuBtn.frame = CGRectMake(686 * SCREENFRAMEHEIGHT, 10 * SCREENFRAMEWEIGHT, SCREENFRAMEHEIGHT * 40, SCREENFRAMEWEIGHT * 40);
     [menuBtn setImage:[UIImage imageNamed:@"set"] forState:UIControlStateNormal];
-    [menuBtn setImage:[UIImage imageNamed:@"setSelected"] forState:UIControlStateSelected];
+//    [menuBtn setImage:[UIImage imageNamed:@"setSelected"] forState:UIControlStateSelected];
     [menuBtn addTarget:self action:@selector(clickMenuBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuBtn];
     _menuBtn = menuBtn;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(20 * SCREENFRAMEWEIGHT, 10 * SCREENFRAMEHEIGHT, 50 * SCREENFRAMEWEIGHT, 50 * SCREENFRAMEHEIGHT);
-    backBtn.backgroundColor = [UIColor greenColor];
+    backBtn.frame = CGRectMake(10 * SCREENFRAMEWEIGHT, 10 * SCREENFRAMEHEIGHT, 50 * SCREENFRAMEWEIGHT, 50 * SCREENFRAMEHEIGHT);
+    [backBtn setImage:[UIImage imageNamed:@"photoback"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(clickBackBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
     
     _lockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _lockBtn.frame = CGRectMake(0, 0, 100, 50);
-    _lockBtn.backgroundColor = [UIColor greenColor];
+    _lockBtn.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.width - 80, 80, 50);
+    _lockBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
     [_lockBtn setTitle:@"锁定" forState:UIControlStateNormal];
     [_lockBtn setTitle:@"已锁定" forState:UIControlStateSelected];
     [_lockBtn addTarget:self action:@selector(clickLockBtn:) forControlEvents:UIControlEventTouchUpInside];
     [_menuView addSubview:_lockBtn];
+    
+    _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _deleteBtn.frame = CGRectMake(100, [UIScreen mainScreen].bounds.size.width - 80, 100, 50);
+    _deleteBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+    _deleteBtn.alpha = 1;
+    [_deleteBtn setTitle:@"删除模式" forState:UIControlStateNormal];
+    [_deleteBtn addTarget:self action:@selector(clickDeleteState:) forControlEvents:UIControlEventTouchUpInside];
+    [_menuView addSubview:_deleteBtn];
     
     _textLabelTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 726 * SCREENFRAMEHEIGHT, 50 * SCREENFRAMEHEIGHT)];
     _textLabelTitle.textAlignment = NSTextAlignmentCenter;
@@ -150,30 +238,31 @@
     [self.view addSubview:_textLabelTitle];
     
     _imageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _imageBtn.alpha = 0;
     _imageBtn.frame = CGRectMake(0, 0, 200 * SCREENFRAMEHEIGHT, 50 * SCREENFRAMEWEIGHT);
     _imageBtn.center = CGPointMake([UIScreen mainScreen].bounds.size.height / 2, [UIScreen mainScreen].bounds.size.width / 2);
     _imageBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
     [_imageBtn setTitle:@"设置家居整体背景" forState:UIControlStateNormal];
-    [_imageBtn addTarget:self action:@selector(photoFromCamera) forControlEvents:UIControlEventTouchUpInside];
+    [_imageBtn addTarget:self action:@selector(clickImageBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_imageBtn];
     
     
     
-    _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _saveBtn.frame = CGRectMake(10, (414 - 90), 50, 50);
-    _saveBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
-    _saveBtn.alpha = 1;
-    [_saveBtn setTitle:@"存储" forState:UIControlStateNormal];
-    [_saveBtn addTarget:self action:@selector(saveSqliteCoustomSevice) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_saveBtn];
+//    _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _saveBtn.frame = CGRectMake(10, (414 - 90), 50, 50);
+//    _saveBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+//    _saveBtn.alpha = 1;
+//    [_saveBtn setTitle:@"存储" forState:UIControlStateNormal];
+//    [_saveBtn addTarget:self action:@selector(saveSqliteCoustomSevice) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:_saveBtn];
     
-    _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _deleteBtn.frame = CGRectMake(10, (414 - 160), 100, 50);
-    _deleteBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
-    _deleteBtn.alpha = 1;
-    [_deleteBtn setTitle:@"删除模式" forState:UIControlStateNormal];
-    [_deleteBtn addTarget:self action:@selector(clickDeleteState:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_deleteBtn];
+//    _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _deleteBtn.frame = CGRectMake(10, (414 - 160), 100, 50);
+//    _deleteBtn.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+//    _deleteBtn.alpha = 1;
+//    [_deleteBtn setTitle:@"删除模式" forState:UIControlStateNormal];
+//    [_deleteBtn addTarget:self action:@selector(clickDeleteState:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:_deleteBtn];
     
     
     
@@ -191,39 +280,49 @@
         }
         
     }
+    
+    [self clickMenuBtn:self.menuBtn];
+    
     sender.selected =! sender.isSelected;
 }
 
 
+#pragma mark - collection delegate
 
-
-#pragma mark - tableView delegate
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _data.count ? : 0;
+//    return 20;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *ID = @"menuCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"chara" forIndexPath:indexPath];
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
     }
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, SCREENFRAMEHEIGHT * 44)];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentCenter;
     HMService *service = _data[indexPath.row];
-    cell.textLabel.text = service.localizedDescription;
-    NSLog(@"%@", service.characteristics);
-    for (HMCharacteristic *characteristic in service.characteristics) {
-        NSLog(@"%@", characteristic.localizedDescription);
-        [characteristic enableNotification:YES completionHandler:^(NSError * _Nullable error) {
-            if (error != nil) {
-                NSLog(@"Something went wrong when enbling nofification a characteristic with error = %@", error);
-            }
-        }];
+    if (indexPath.row == 0) {
+        label.text = @"点击添加如下配件";
+    } else {
+        label.text = service.name;
     }
+    
+    cell.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+    [cell.contentView addSubview:label];
     
     
     return cell;
+    
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        return;
+    }
     
     for (UIView *stateView in self.stateViewArray) {
         if (stateView.tag == indexPath.row + 1000) {
@@ -233,13 +332,22 @@
     
     [self addSeviceView:indexPath.row];
     [self clickMenuBtn:self.menuBtn];
+    if (self.lockBtn.isSelected == YES) {
+        
+        [self clickLockBtn:self.lockBtn];
+    }
 }
+
+
+
+
 
 // 点击锁定按钮
 - (void)clickLockBtn:(UIButton *)sender {
     if (_stateViewArray.count != 0) {
         for (HLCoustomSeviceView *view in _stateViewArray) {
             [self check3DTouchAvailableWithCell:view];
+            
         }
     }
     if (sender.selected) {
@@ -247,6 +355,7 @@
             for (HLCoustomSeviceView *view in _stateViewArray) {
                 view.lockState = NO;
                 view.stateBtn.alpha = 0;
+                view.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
             }
         }
     } else {
@@ -254,6 +363,8 @@
             for (HLCoustomSeviceView *view in _stateViewArray) {
                 view.lockState = YES;
                 view.stateBtn.alpha = 1;
+                view.backgroundColor = [UIColor clearColor];
+
             }
         }
     }
@@ -269,8 +380,6 @@
     view.delegate = self;
     [self.view addSubview:view];
     [self.stateViewArray addObject:view];
-    
-    
     
 }
 
@@ -308,11 +417,13 @@
 - (void)clickMenuBtn:(UIButton *)sender {
     if (sender.selected == YES) {
         [UIView animateWithDuration:0.5 animations:^{
-            _menuView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 170, [UIScreen mainScreen].bounds.size.width);
+            _menuView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 200, [UIScreen mainScreen].bounds.size.width);
+            self.imageBtn.alpha = 0;
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
-            _menuView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 170, 0, 170, [UIScreen mainScreen].bounds.size.width);
+            _menuView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 200, 0, 200, [UIScreen mainScreen].bounds.size.width);
+            self.imageBtn.alpha = 1;
         }];
     }
     sender.selected =! sender.isSelected;
@@ -349,6 +460,7 @@
         HLCoustomSeviceView *view = (HLCoustomSeviceView *)context.sourceView;
         
         peekViewController.service = view.service;
+        peekViewController.accessory = self.accessory;
 
 
         
@@ -363,6 +475,43 @@
 }
 
 
+- (void)clickImageBtn:(UIButton *)sender {
+    
+    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self photoFromCamera];
+    }];
+    UIAlertAction *album = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self photoFromAlbum];
+    }];
+    
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择设置背景来源" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alert addAction:photo];
+    [alert addAction:album];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        
+    }];
+    
+    
+}
+
+#pragma mark - 相册
+- (void)photoFromAlbum{
+    
+    UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        pickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        //pickerImage.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        pickerImage.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pickerImage.sourceType];
+    }
+    pickerImage.delegate = self;
+    pickerImage.allowsEditing = NO;
+    [self presentViewController:pickerImage animated:YES completion:^{
+    }];
+    
+}
 
 
 #pragma mark - 调用系统相机拍摄房间内部布局
@@ -393,6 +542,15 @@
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
         [self savePlaceHolderPNG:image];
     }
+    
+    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        self.imageView.image = image;
+
+
+        [self savePlaceHolderPNG:image];
+    }
+    
     [picker dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -452,14 +610,14 @@
             NSString *strFrame = [result stringForColumn:@"Frame"];
             CGRect frame = CGRectFromString(strFrame);
             
-            HLCoustomSeviceView *view = [HLCoustomSeviceView getCoustomSeviceViewWithFrame:frame  Index:index sevice:_accessory.services[index]];
-            view.backgroundColor = [UIColor colorWithWhite:0.33 alpha:0.66];
+            HLCoustomSeviceView *view = [HLCoustomSeviceView getCoustomSeviceViewWithFrame:frame Index:index sevice:_accessory.services[index]];
+            view.backgroundColor = [UIColor clearColor];
             view.tag = 1000 + index;
             view.delegate = self;
+
             [self.view addSubview:view];
             [self.stateViewArray addObject:view];
-            
-            
+        
         }
         
         [dataBase close];
@@ -478,7 +636,7 @@
         }
         [self.dataBase close];
     }
-    NSLog(@"%ld", _stateViewArray.count);
+    NSLog(@"%ld", (unsigned long)_stateViewArray.count);
     
 }
 

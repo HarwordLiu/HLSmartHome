@@ -13,7 +13,7 @@
 + (instancetype)getCoustomSeviceViewWithFrame:(CGRect)frame
                                         Index:(NSInteger)index
                                        sevice:(HMService *)service {
-    HLCoustomSeviceView *view = [[HLCoustomSeviceView alloc] initWithFrame:frame];
+    HLCoustomSeviceView *view = [[HLCoustomSeviceView alloc] initWithFrame:frame Index:index sevice:service];
     NSLog(@"%@", NSStringFromCGRect(frame));
     view.service = service;
     view.index = index;
@@ -21,16 +21,39 @@
     return view;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+                        Index:(NSInteger)index
+                       sevice:(HMService *)service {
     self = [super initWithFrame:frame];
     if (self) {
+        
         
         UIButton *stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         stateBtn.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         stateBtn.backgroundColor = [UIColor clearColor];
-        [stateBtn setTitle:@"关" forState:UIControlStateNormal];
-        [stateBtn setTitle:@"开" forState:UIControlStateSelected];
-        [stateBtn addTarget:self action:@selector(clickStateBtn:) forControlEvents:UIControlEventTouchUpInside];
+//        [stateBtn setTitle:@"关" forState:UIControlStateNormal];
+//        [stateBtn setTitle:@"开" forState:UIControlStateSelected];
+        
+        NSLog(@"%@", service.localizedDescription);
+        
+        if ([service.localizedDescription isEqualToString:@"灯泡"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"lightOff"] forState:UIControlStateNormal];
+            [stateBtn setImage:[UIImage imageNamed:@"lightOn"] forState:UIControlStateSelected];
+            [stateBtn addTarget:self action:@selector(clickStateBtn:) forControlEvents:UIControlEventTouchUpInside];
+        } else if ([service.localizedDescription isEqualToString:@"窗帘"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"window"] forState:UIControlStateNormal];
+        } else if ([service.localizedDescription isEqualToString:@"风扇"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"fanOff"] forState:UIControlStateNormal];
+            [stateBtn setImage:[UIImage imageNamed:@"fanOn"] forState:UIControlStateSelected];
+            [stateBtn addTarget:self action:@selector(clickStateBtn:) forControlEvents:UIControlEventTouchUpInside];
+        } else if ([service.localizedDescription isEqualToString:@"家门"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"door"] forState:UIControlStateNormal];
+        } else if ([service.localizedDescription isEqualToString:@"恒温器"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"temp"] forState:UIControlStateNormal];
+        } else if ([service.localizedDescription isEqualToString:@"窗户"]) {
+            [stateBtn setImage:[UIImage imageNamed:@"temp"] forState:UIControlStateNormal];
+        }
+
         [self addSubview:stateBtn];
         
         _stateBtn = stateBtn;
@@ -43,6 +66,7 @@
         self.deleBtn.alpha = 0;
         [self.deleBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.deleBtn];
+        
         
     }
     return self;

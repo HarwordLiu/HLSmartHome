@@ -26,8 +26,8 @@
     HLHomeViewController *homeVC = [[HLHomeViewController alloc] init];
     [self addChild:homeVC image:@"home" imageSele:@"home" title:@"room"];
     
-    HLMoreViewController *moreVC = [[HLMoreViewController alloc] init];
-    [self addChild:moreVC image:@"more" imageSele:@"more" title:@"more"];
+//    HLMoreViewController *moreVC = [[HLMoreViewController alloc] init];
+//    [self addChild:moreVC image:@"more" imageSele:@"more" title:@"more"];
     
     
 }

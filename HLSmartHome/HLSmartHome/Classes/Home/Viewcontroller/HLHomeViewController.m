@@ -9,12 +9,13 @@
 #import "HLHomeViewController.h"
 #import "HLAddNewViewController.h"
 #import "HLCoustomViewController.h"
-#import "RLNetWorkTool.h"
-#import "NSString+MD5.h"
+
 
 @interface HLHomeViewController ()<UITableViewDelegate, UITableViewDataSource, HMHomeManagerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) HMHomeManager *homeManager;
 @property (nonatomic, strong) HMHome *activeHome;
@@ -31,29 +32,56 @@
     
     [self initHomeManager];
     [self creatSubView];
-    [self drawTestBtn];
+
     
 }
 
 - (void)initHomeManager {
     self.title = @"房间列表";
+    _updataState = YES;
     
     self.homeManager = [[HMHomeManager alloc] init];
     self.homeManager.delegate = self;
 }
 
+
 - (void)initHomeSetup {
     // 防止循环调用系统
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _updataState = YES;
 //        self.homeManager = [[HMHomeManager alloc] init];
 //        self.homeManager.delegate = self;
         
         __weak __typeof__(self) weakSelf = self;
+// 初始化 重命名当前房间
         [self.homeManager addHomeWithName:@"My Home" completionHandler:^(HMHome * _Nullable home, NSError * _Nullable error) {
             if (error != nil) {
                 NSLog(@"something wrong with error = %@", error);
+                if ([[error.userInfo valueForKey:@"NSLocalizedDescription"] isEqualToString:@"家庭数据访问未经授权。"]) {
+                    
+                
+                    UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    }];
+                    UIAlertAction *actionYes = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                        
+                        if([[UIApplication sharedApplication] canOpenURL:url]) {
+                            
+                            [[UIApplication sharedApplication] openURL:url];
+                            
+                        }
+                        
+                        
+                    }];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否允许软件使用HomeKit数据" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [alert addAction:actionYes];
+                    [alert addAction:actionNo];
+                    [weakSelf presentViewController:alert animated:YES completion:^{
+                        
+                    }];
+                
+                }
+                
             } else {
                 // 判断home是否为空
                 HMHome *sentHome = home;
@@ -114,12 +142,19 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickRightBar:)];
     
+    
+    
+    
+    
     self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
     [self.view addSubview:self.tableView];
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:HOMECELLKEY];
+    
+
     
 }
 
@@ -132,15 +167,24 @@
     
 }
 
+
+
+
+
+
 #pragma mark - tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _activeHome.accessories.count ? : 0;
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HOMECELLKEY];
-    cell.backgroundColor = [UIColor purpleColor];
+    cell.backgroundColor = [UIColor randomColor];
     cell.textLabel.text = _activeHome.accessories[indexPath.row].name;
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -177,59 +221,7 @@
     }];
 }
 
-- (void)drawTestBtn {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(200, 200, 200, 200);
-    btn.backgroundColor = [UIColor greenColor];
-    [btn addTarget:self action:@selector(clickTestBtn:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:btn];
-}
 
-- (void)clickTestBtn:(UIButton *)sender {
-    NSMutableDictionary *optionDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2", @"appType", @"wxjsa", @"loginName", @"wxjsa", @"password", nil];
-    
-    NSMutableDictionary *dic = [HLHomeViewController requestOption];
-    [dic addEntriesFromDictionary:optionDic];
-    [RLNetWorkTool postWithURL:@"http://101.200.183.165:80/rw/app/login.do" Body:dic BodyType:BodyTypeNormol HttpHeader:nil ResponseType:ResponseTypeJSON Progress:^(NSProgress *progress) {
-        
-    } Success:^(id result) {
-        NSLog(@"result === %@", result);
-    } Failure:^(NSError *error) {
-        NSLog(@"error === %@", error);
-    }];
-}
-
-+ (NSMutableDictionary *)requestOption
-{
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    
-    // 时间
-    long long timeInterval = [[NSDate date] timeIntervalSince1970];
-    NSString *rtnStr = [NSString stringWithFormat:@"%lld", timeInterval];
-    
-    // 随机数字
-    NSString *num = [NSString stringWithFormat:@"%i", arc4random() % 1000];
-    
-    // 机密signature
-    NSString *signatureResult = [[NSString stringWithFormat:@"%@%@%@",@"realwish-gasering", rtnStr, num] SHA1];
-    NSString *sigStr = signatureResult.uppercaseString;
-    
-    //    NSLog(@"%@", )
-    
-    
-    
-    [dic setObject:[NSString stringWithFormat:@"%@", rtnStr] forKey:@"timestamp"];
-    [dic setObject:[NSString stringWithFormat:@"%@", num] forKey:@"nonce"];
-    [dic setObject:[NSString stringWithFormat:@"%@", sigStr] forKey:@"signature"];
-    
-    //    [dic setObject:@"20160105" forKey:@"timestamp"];
-    //    [dic setObject:@"2016" forKey:@"nonce"];
-    //    [dic setObject:@"565EB2156DEB0BA1844DA3451EA4BE6379FA4B21" forKey:@"signature"];
-    //
-    
-    return dic;
-}
 
 
 - (void)didReceiveMemoryWarning {

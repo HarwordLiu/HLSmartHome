@@ -10,6 +10,7 @@
 #define HLPrefixHeader_pch
 
 #import <HomeKit/HomeKit.h>
+#import "UIColor+VVRandomColor.h"
 
 
 #define SCREENFRAMEWEIGHT [UIScreen mainScreen].bounds.size.width / 414

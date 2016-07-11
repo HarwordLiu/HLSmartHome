@@ -32,6 +32,7 @@
 - (void)initialization {
     self.homeManager = [[HMHomeManager alloc] init];
     
+    // 初始化浏览HomeKit配件
     self.browser = [[HMAccessoryBrowser alloc] init];
     self.browser.delegate = self;
     [self.browser startSearchingForNewAccessories];
@@ -68,7 +69,10 @@
         }
     }
     [_tableView reloadData];
+    
+#pragma mark - 加一个代理用来回调更新第一个界面显示的数据源
 }
+
 
 #pragma mark - tableView delegate
 
@@ -78,7 +82,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADDCELLKEY];
-    cell.backgroundColor = [UIColor greenColor];
+    cell.backgroundColor = [UIColor randomColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = _accrossorers[indexPath.row].name;
     return cell;
 }
@@ -88,6 +93,7 @@
     HMRoom *room = _homeManager.primaryHome.rooms.firstObject;
     __weak __typeof__(self) weakSelf = self;
     if (room) {
+        // 调用添加配件服务界面
         [_homeManager.primaryHome addAccessory:accessory completionHandler:^(NSError * _Nullable error) {
             if (error == nil) {
                 NSLog(@"%s, error = %@", __FUNCTION__, error);

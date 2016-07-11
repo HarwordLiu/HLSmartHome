@@ -11,6 +11,10 @@
 
 @interface HLSeviceContentViewController : UIViewController
 
+
 @property (nonatomic, strong) HMService *service;
+@property (nonatomic, strong) HMAccessory *accessory;
+
+
 
 @end
